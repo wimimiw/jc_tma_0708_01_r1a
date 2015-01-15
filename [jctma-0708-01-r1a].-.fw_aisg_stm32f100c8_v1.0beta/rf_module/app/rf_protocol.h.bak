@@ -1,0 +1,43 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:rf_protocol.h
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_PROTOCOL_C__
+#define __RF_PROTOCOL_C__
+#endif
+
+#ifndef __RF_PROTOCOL_C__
+#define	__RF_PROTOCOL_EXT__ 	 extern
+#else
+#define	__RF_PROTOCOL_EXT__
+#endif
+/* Includes ------------------------------------------------------------------*/
+/* Public typedef ------------------------------------------------------------*/
+typedef struct _RF_PARAM_ {
+    U16 cmd;
+    U8  *data;
+    U16 len;
+    U8  type;
+    S32 limLow;
+    S32 limHigh;
+    S32 defaultVal;
+    U8 	(*set)();
+    U8 	(*get)(U8 *ptr);
+} RF_PARAM, *RF_PARAMS;
+
+/* Public define -------------------------------------------------------------*/
+/* Public macro --------------------------------------------------------------*/
+/* Public variables ----------------------------------------------------------*/
+/* Public function prototypes ------------------------------------------------*/
+__RF_PROTOCOL_EXT__ void TaskProtocol(void);
+__RF_PROTOCOL_EXT__ void InitProtocol(void);
+/********************************END OF FILE***********************************/

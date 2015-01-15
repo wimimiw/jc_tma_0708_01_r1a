@@ -1,0 +1,213 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:rf_parameter.h
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_PARAMETER_H__
+#define __RF_PARAMETER_H__
+#endif
+
+#ifndef __RF_PARAMETER_C__
+#define	__RF_PARAMETER_EXT__ 	 extern
+#else
+#define	__RF_PARAMETER_EXT__
+#endif
+/* Includes ------------------------------------------------------------------*/
+/* Public typedef ------------------------------------------------------------*/
+typedef struct _FCT_PARAM_{
+   	U8  gGainOffset1;													//0x0002		//1字节，1#衰减器调整值
+   	U8  gGainOffset2;													//0x0102		//1字节，2#衰减器调整值 
+   	U8  gAtt1;		    												//0x0001		//1字节，1#衰减器设定值
+   	U8  gAtt2;		    												//0x0101		//1字节，2#衰减器设定值
+
+   	U8  LNA1_gAttTrue1;													//0x0003	    //1字节，1#衰减器实际值
+   	U8  LNA1_gAttTrue2;	    											//0x0004     	//1字节，2#衰减器实际值
+   	U8  LNA2_gAttTrue1;													//0x0103	    //1字节，1#衰减器实际值
+   	U8  LNA2_gAttTrue2;	    										    //0x0104     	//1字节，2#衰减器实际值
+
+   	U8  SW1_30dB;			  											//开关1
+   	U8  SW2_30dB;			  											//开关2
+
+   	U8  gTempgain;	    												//1字节，温补基准值设定
+
+   	S16  gcurRfTemp;													//当前温度值
+   	S16  gpreRfTemp;													//上一次温度值
+    S8   gBaseTemp;														//温度补偿基准温度值			 1
+   	S16  gainCo;														//和基准温度的差值
+   	S16  gtestRfTemp;													//测试温度值					 5
+   	U8  gtestflag;		        										//调试命令标志，0为正常状态，1为调试状态		   6
+   	U8  gGainNumer;		        										//0x00A2		//1字节，增益温补系数分子		   3
+   	U8  gGainDenomi;	            									//0x00A3		//1字节，增益温补系数分母		   4
+   	U8  gAtttempval;													//温度补偿衰减值				 2					
+
+   	U16 gLnaCurHlim;	    											//0x009A		//2字节，LNA电流上限
+   	U16 gLnaCurLlim;	    											//0x009C		//2字节，LNA电流下限
+   	S16  gCurCo;														//0x0080		//2字节，lna电流斜率
+   	U16 gCurOffset;														//0x0082		//2字节，lna1电流检测调整值
+   	U16 gCurCoAll;														//0x0080	    //2字节，lna总电流斜率
+   	U16 gCurOffsetAll;													//0x0082	    //2字节，lna1总电流检测调整值
+
+    U16 LNACurrentAD;					       							//低噪放电流，总电流
+    U16 LNA1CurrentAD;				           							//1路LNA电流  ------------------------->
+    U16 LNA2CurrentAD;			    	       							//2路LNA电流 -------------------------->
+    U16 curPwrOutAD;                            						//输出功率AD值
+    U16 curPwrReAD;                             						//反射功率AD值
+    S16  curPwrOut;                               						//输出功率dbm值，100倍
+    S16  curPwrRe;                                						//反射功率dbm值，100倍
+
+    S16  gPwrOutOffset;													//输出功率定标值，2字节
+    U16 gPwrOutCo;														//输出功率检测斜率，2字节
+    S16  gPwrReOffset;													//反射功率定标值，2字节
+   	U16 gPwrReCo;														//反射功率检测斜率，2字节
+    U16 gValueA;															//功率系数A，2字节
+    U16 gValueB;															//功率系数B，2字节
+
+   	U8  gRF_No;															//0x00C0		//1字节，射频模块编号
+   	U8  gRFSW1;															//0x00C2		 //----射频开关1---------------->
+   	U8  gRFSW2;															//0x00C3		 //----射频开关2---------------->
+    U8  gRFSW_RX2;						 								//RX2选择开关 0: Select LNA2  / 1: Select LNA1
+
+    U16 all_checksum;													//程序校验和
+	U8  AlarmLNA1;
+	U8  AlarmLNA2;
+	
+	U8  sn[10];															// 模块序列号 10字节
+	
+	U16	gVersion;
+	U8	gGC1;
+	U8 	gGC2;
+	U8	gGC3;
+} FCT_PARAM, *PFCT_PARAM;
+
+// 功率校准结构体
+typedef struct _PA_ADJ_VAL_ {
+	S16 dbmVal;
+	U16 adVal;
+}PA_ADJ_VAL, *PPA_ADJ_VAL;
+
+// asb parameter struct
+typedef struct _ASB_PARAM_ {
+	U8 *lna1;
+	U8 *lna2;
+	U16	temp;
+	U8	version;
+	U16	wave;
+	U16 power;
+	
+	U8*	write;
+	U8*	read;
+}ASB_PARAM;
+/* Public define -------------------------------------------------------------*/
+/****功率校准宏定义******************************************/    //by  2010.8.29
+/* 参数类型定义         */
+#define RF_PARAM_FCT            0x00
+#define RF_PARAM_EEPROM         0x01
+#define RF_PARAM_SAMPLE         0x02
+#define RF_PARAM_BOTHWR         0x03
+
+/* 软件升级状态         */
+#define SOFT_DOWN_RESET         0x02
+#define SOFT_DOWN_DOING         0x01
+#define SOFT_DOWN_UNDO          0x00
+
+//CAT24WC256中0x7000开始存放数据
+/****gain*****/
+
+#define EE_OFFSET  				0x7000
+
+#define EE_Rec0					EE_OFFSET + 0x0050		//1字节，
+#define EE_Rec1					EE_OFFSET + 0x0060		//1字节，
+/****gain*****/
+#define EE_Att1					EE_OFFSET + 0x0001		//1字节，1#衰减器设定值
+#define EE_GainOffset1			EE_OFFSET + 0x0002		//1字节，1#增益调整值
+#define EE_Att2			    	EE_OFFSET + 0x0101		//1字节，2#衰减器设定值
+#define EE_GainOffset2			EE_OFFSET + 0x0102		//1字节，2#增益调整值
+//#define EE_Att_True1			EE_OFFSET + 0x0103		//1字节，1#衰减器实际值
+//#define EE_Att2_Ture2			EE_OFFSET + 0x0104		//1字节，2#衰减器实际值
+#define EE_IO1                  EE_OFFSET + 0x0105		//1字节，IO1控制
+#define EE_IO2                  EE_OFFSET + 0x0106		//1字节，IO2控制
+#define EE_IO3                  EE_OFFSET + 0x0107		//1字节，IO1控制
+/*****current*****/
+#define	EE_CurCo				EE_OFFSET + 0x0080		//2字节，LNA电流斜率
+#define	EE_CurOffset			EE_OFFSET + 0x0082		//2字节，LNA电流检测调整值
+//#define EE_NormalCur			EE_OFFSET + 0x009A		//2字节，LNA正常电流设定值
+#define	EE_CurCo_all			EE_OFFSET + 0x0184		//2字节，LNA总电流斜率				 1
+#define	EE_CurOffset_all		EE_OFFSET + 0x0186		//2字节，LNA总电流检测调整值		 2
+#define	EE_LnaCurHlim			EE_OFFSET + 0x0084		//2字节，LNA电流上限				 3
+#define EE_LnaCurLlim			EE_OFFSET + 0x0086		//2字节，LNA电流下限				 4
+/*****上行module*******/
+#define	EE_RF_No				EE_OFFSET + 0x00C0		//1字节，射频模块编号
+#define EE_RFSW1				EE_OFFSET + 0x00C1      //1字节，--------》开关1
+#define EE_RFSW2				EE_OFFSET + 0x00C2      //1字节，--------》开关2 
+#define EE_RFSW_RX2				EE_OFFSET + 0x00CB		//RX2选择开关
+
+/*****温度*******/
+#define	EE_GainNumer			EE_OFFSET + 0x00A2		//1字节，增益温补系数分子
+#define EE_GainDenomi			EE_OFFSET + 0x00A3		//1字节，增益温补系数分母
+
+/******debug maker**********/
+#define	EE_TEST_TEMP			EE_OFFSET + 0x00D0		//2字节，设置温度
+#define	EE_TEST_MARK			EE_OFFSET + 0x00D2		//1字节，设置调试状态
+#define	EE_TEMP_VALUE   		EE_OFFSET + 0x00D3		//1字节，设置温度补偿的基准值
+#define	EE_BASE_TEMP   		    EE_OFFSET + 0x00D4		//1字节，设置温度补偿的基准值
+
+//#define	EE_BASE_TEMP   		    EE_OFFSET + 0x00AA		//1字节，设置温度补偿的基准值
+/******version**********/
+#define	EE_VERSION				EE_OFFSET + 0x00E0		//2字节，程序版本号
+#define	EE_ALL_CHECKSUM			EE_OFFSET + 0x00E2		//2字节，程序校验和
+#define	EE_MODULE_No			EE_OFFSET + 0x00E4		//10字节，模块序列号
+#define EE_DOWN_FLAG        	EE_OFFSET + 0x01FF		//1字节，软件下载标志
+
+/*******power******added by wangzuojia 2010.7.26***/
+#define	EE_PwrOutOffset			EE_OFFSET + 0x0022	//输出功率定标值，2字节
+#define	EE_PwrOutCo				EE_OFFSET + 0x0024	//输出功率检测斜率，2字节
+#define	EE_PwrReOffset			EE_OFFSET + 0x0026	//反射功率定标值，2字节
+#define	EE_PwrReCo				EE_OFFSET + 0x0028	//反射功率检测斜率，2字节
+#define	EE_ValueA				EE_OFFSET + 0x0035	//功率系数A，2字节
+#define	EE_ValueB				EE_OFFSET + 0x0037	//功率系数B，2字节
+
+#define EE_REFADJVAL            EE_OFFSET + 0x0400	//反射功率校准值
+#define EE_OUTADJVAL            EE_OFFSET + 0x0500	//输出功率校准值
+
+// 反射功率
+#define PA_ADJ_VAL_MIN_PRE    	5									 			// 数组最小值
+#define PA_ADJ_VAL_MIN        	13									 			// 新的检测最小值
+#define PA_ADJ_VAL_MAX        	45									 			// 检测最大值 
+#define PA_ADJ_VAL_NUM        	(PA_ADJ_VAL_MAX - PA_ADJ_VAL_MIN + 1)	 		// 检测数目
+#define PA_ADJ_VAL_OFFSET	  	(PA_ADJ_VAL_MIN - PA_ADJ_VAL_MIN_PRE)	 		// 最小值在数组中偏移值
+#define PA_ADJ_VAL_STR_LEN	  	(PA_ADJ_VAL_MAX - PA_ADJ_VAL_MIN_PRE + 1)		// 数组长度
+#define PA_ADJ_VAL_STR_MAX	  	(PA_ADJ_VAL_MAX - PA_ADJ_VAL_MIN_PRE)			// 最大点在数组中的位置
+#define PA_ADJ_VAL_STR_MIN	  	(PA_ADJ_VAL_MIN - PA_ADJ_VAL_MIN_PRE)			// 最小点在数组中的位置
+// 输出功率
+#define PA_OUT_ADJ_VAL_MIN_PRE 	10    											// 数组最小值
+#define PA_OUT_ADJ_VAL_MIN     	19												// 新的检测最小值
+#define PA_OUT_ADJ_VAL_MAX     	51												// 检测最大值
+#define PA_OUT_ADJ_VAL_NUM     	(PA_OUT_ADJ_VAL_MAX - PA_OUT_ADJ_VAL_MIN + 1)	// 检测数目
+#define PA_OUT_ADJ_VAL_OFFSET  	(PA_OUT_ADJ_VAL_MIN - PA_OUT_ADJ_VAL_MIN_PRE)	// 最小值在数组中偏移值
+#define PA_OUT_ADJ_VAL_STR_LEN 	(PA_OUT_ADJ_VAL_MAX - PA_OUT_ADJ_VAL_MIN_PRE + 1)// 数组长度
+#define PA_OUT_ADJ_VAL_STR_MAX 	(PA_OUT_ADJ_VAL_MAX - PA_OUT_ADJ_VAL_MIN_PRE)	// 最大点在数组中的位置
+#define PA_OUT_ADJ_VAL_STR_MIN 	(PA_OUT_ADJ_VAL_MIN - PA_OUT_ADJ_VAL_MIN_PRE)	// 最小点在数组中的位置
+
+#define PA_ADJ_VAL_INVALID     	0xFF                                            // 功率无效点
+
+#define AD_SAMPLE_TIME			16
+#define	MAX_DATA_LEN			64
+/* Public macro --------------------------------------------------------------*/
+extern const JOINTCOM_EXE_TABLE jointExeTab[];
+/* Public variables ----------------------------------------------------------*/
+__RF_PARAMETER_EXT__ FCT_PARAM gFctParam;
+__RF_PARAMETER_EXT__ ASB_PARAM gAsbParam;
+/* Public function prototypes ------------------------------------------------*/
+__RF_PARAMETER_EXT__ U8 JointExeTabSize(void);
+__RF_PARAMETER_EXT__ U8 AsbExeTabSize(void);
+__RF_PARAMETER_EXT__ void TaskParameter(void);
+__RF_PARAMETER_EXT__ void InitParam(void);
+/********************************END OF FILE***********************************/

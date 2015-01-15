@@ -1,0 +1,67 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:rf_control.h
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_CONTROL_C__
+#define __RF_CONTROL_C__
+#endif
+
+#ifndef __RF_CONTROL_C__
+#define	__RF_CONTROL_EXT__ 	 extern
+#else
+#define	__RF_CONTROL_EXT__
+#endif
+/* Includes ------------------------------------------------------------------*/
+/* Public typedef ------------------------------------------------------------*/
+/* Public define -------------------------------------------------------------*/
+/* Public macro --------------------------------------------------------------*/
+/* Public variables ----------------------------------------------------------*/
+/* Public function prototypes ------------------------------------------------*/
+__RF_CONTROL_EXT__ void TaskControl(void);
+__RF_CONTROL_EXT__ void InitControl(void);
+//void writeAttenuator(U8 attVal);
+//void freqCompensate(void);
+//void execCheckSumQ(void);
+//void sendInitpacket(void);
+//uint32 ADCSample(U8 channel, U16 *adReVal);
+//U16 readAD(U8 channel,U8 num);
+//void autoATT(void);
+//U8 CheckDownFlag(void);
+//void openRFLoop(void);
+//void closeRFLoop(void);
+//
+//void DealI2C_LNA1(void);			   //------------------>
+//void DealI2C_LNA2(void);
+//U8 I2C_sendData(void);
+
+///***********added by wangzuojia*********************************/
+S16 calPwr( U16 PwrAD, const S16 PwrVal, U16 pwrCo );
+U16 getVswrValue( S32 PwrOut, S32 PwrRe );
+U16 convertType( U16 binType );
+//
+//void taskSample(void);
+
+//INT16S calRefPwr( INT16U refPwrAd, const INT16S refPwrVal );
+
+//INT16S calOutPwr( INT16U outPwrAd, const INT16S outPwrVal );
+//
+//U8 checkStrOrder( INT16U *str, U8 start, U8 end );
+//BOOL calMaxPoint( INT16U *str, U8 point, U8 max );
+//
+//extern void orderStr(INT16U *pData, U8 len);
+//
+//void calVswr(void);
+//
+
+__RF_CONTROL_EXT__ U8 JointExeTabSize(void);
+__RF_CONTROL_EXT__ U8 AsbExeTabSize(void);
+/********************************END OF FILE***********************************/

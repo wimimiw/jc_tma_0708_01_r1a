@@ -1,0 +1,221 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:rf_parameter.c
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_PARAMETER_C__
+#define __RF_PARAMETER_C__
+#endif
+/* Includes ------------------------------------------------------------------*/
+#include "config.h"
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+#define RF_LNA1_ATT_SET				0x0001//1字节，LNA1路衰减器设定值						
+#define RF_LNA1_ATT_ADJ				0x0002//1字节，LNA1路衰减器调整值						
+#define	RF_LNA2_ATT_SET				0x0101//1字节，LNA2路衰减器设定值																					   
+#define RF_LNA2_ATT_ADJ				0x0102//1字节，LNA2路衰减器调整值 						
+#define RF_LNA1_ATT1_VALUE			0x0003//LNA1 ATT1衰减值
+#define RF_LNA1_ATT2_VALUE			0x0004//LNA1 ATT2衰减值
+#define RF_LNA2_ATT1_VALUE			0x0103//LNA2 ATT1衰减值
+#define RF_LNA2_ATT2_VALUE			0x0104//LNA2 ATT2衰减值
+
+#define RF_MODULE_GC1				0x0105
+#define RF_MODULE_GC2				0x0106
+#define RF_MODULE_GC3				0x0107
+
+#define RF_LNA1_SW1_30DB			0x01BE//1字节，LNA1 30DB att开关
+#define RF_LNA2_SW2_30DB			0x01BF//1字节，LNA1 30DB att开关
+#define RF_LNA1_CURRENT				0x00C6//LNA1检测电流
+#define RF_LNA2_CURRENT				0x01DB//LNA2检测电流
+
+
+#define RF_PWROUT_OFFSET			0x0022//											
+#define RF_PWRREF_OFFSET			0x0026//
+#define RF_PWROUT_CO				0x0024//
+#define RF_PWRREF_CO				0x0028//
+
+#define RF_PWROUT_ADJ	  			0x0130//
+#define RF_PWRRFF_ADJ				0x0132//											
+#define RF_PWROUT_MANUAL			0x0134
+#define RF_PWRREF_MANUAL			0x0136
+
+#define RF_VALUEA					0x0035//											
+#define RF_VALUEB					0x0037//
+
+#define RF_LNA_CUR_CO	 			0x0080//2字节，lna电流斜率------------>				
+#define RF_LNA_CUR_OFFSET 			0x0082//2字节，lna电流检测调整值------>	
+#define RF_LNA_CUR_MAX	 			0x0084//2字节，LNA电流上限（mA）					
+#define RF_LNA_CUR_MIN  			0x0086//2字节，LNA电流下限							
+#define RF_GAIN_NUMBER				0x00A2//1字节，增益温补系数分子 					    
+#define RF_GAIN_DENOMI				0x00A3//1字节，增益温补系数分母	    				    																						
+#define RF_SWITCH1					0x00C1//1字节，射频开关1
+#define RF_SWITCH2					0x00C2//1字节，射频开关2																									                 											
+#define RF_LNA1_ALARM				0x00c3//告警1类型-------0，1，2正常
+#define RF_LNA2_ALARM				0x00c4//告警2类型-------0，1，2正常
+#define RF_PWROUT_AD				0x00C7//2字节，输出功率AD值
+#define RF_PWRREF_AD				0x00C8//2字节，反射功率AD值
+#define RF_TEMPERATURE				0x00CA//温度
+#define RF_SWITCH_RX				0x00CB//1字节，选择开关RX2
+#define RF_DEBUG_TEMPERATURE  		0x00D0//2字节，调试温度								 	
+#define	RF_DEBUG_FLAG				0x00D2//1字节，调试命令标志，0为正常状态，1为调试
+#define RF_GAIN_TEMP				0x00D3//温补补偿衰减基准值					 		    
+#define RF_BASE_TEMP				0x00D4//温度补偿基准温度值							    
+#define RF_PWROUT_DBM				0x01C7//2字节，输出功率dBm值
+#define RF_PWRREF_DBM				0x01C8//2字节，反射功率dBm值
+
+#define RF_MODULE_ADDR				0x00C0//1字节，射频模块编号 
+#define RF_FIRMWARE_VERSION			0x00E0//2字节，程序版本号
+#define RF_FIRMWARE_CHKSUM			0x00E2//2字节，程序校验和
+#define RF_MODULE_SN				0x00E4//模块序列号
+       												
+#define POWER_OUT_ADJ_VALUE_MIN		(PA_OUT_ADJ_VAL_MIN * 100 - 50)
+#define POWER_OUT_ADJ_VALUE_MAX		(PA_OUT_ADJ_VAL_MAX * 100 + 50)
+
+#define POWER_REF_ADJ_VALUE_MIN		(PA_ADJ_VAL_MIN * 100 - 50)
+#define POWER_REF_ADJ_VALUE_MAX		(PA_ADJ_VAL_MAX * 100 + 50)
+
+//ASB protocol cmd
+#define ASB_I2C_CMD_LNA1		0x20
+#define ASB_I2C_CMD_LNA2		0x21
+#define ASB_I2C_CMD_TEMPERATURE	0x22
+#define ASB_I2C_CMD_WAVE		0x24
+#define ASB_I2C_CMD_VERSION		0x23
+#define ASB_I2C_CMD_POWER		0x25
+
+#define ASB_I2C_LEN_LNA1		0x01
+#define ASB_I2C_LEN_LNA2		0x01
+#define ASB_I2C_LEN_TEMPERATURE	0x02
+#define ASB_I2C_LEN_WAVE		0x02
+#define ASB_I2C_LEN_VERSION		0x01
+#define ASB_I2C_LEN_POWER		0x02
+
+#define	ASB_2_JOINTCOM_WRITE	0x70
+#define	ASB_2_JOINTCOM_READ		0x71
+/* Private macro -------------------------------------------------------------*/
+void setGC1(U8*pt,U16 len){}
+void setGC2(U8*pt,U16 len){}
+void setGC3(U8*pt,U16 len){}
+void rfSwitch1(U8*pt,U16 len){}
+void rfSwitch2(U8*pt,U16 len){}
+void rfSwitchRx2(U8*pt,U16 len){}
+
+const ASB_PARAM asbParamTable[] = 
+{
+	{ ASB_I2C_CMD_LNA1		 ,(U8*)&gAsbParam.lna1	 ,sizeof(),NULL }, 
+	{ ASB_I2C_CMD_LNA2		 ,(U8*)&gAsbParam.lna2	 ,sizeof(),NULL },  
+	{ ASB_I2C_CMD_TEMPERATUR ,(U8*)&gAsbParam.temp	 ,sizeof(),NULL },
+	{ ASB_I2C_CMD_WAVE		 ,(U8*)&gAsbParam.version,sizeof(),NULL },  
+	{ ASB_I2C_CMD_VERSION	 ,(U8*)&gAsbParam.wave	 ,sizeof(),NULL },
+	{ ASB_I2C_CMD_POWER		 ,(U8*)&gAsbParam.power	 ,sizeof(),NULL },  
+	{ ASB_2_JOINTCOM_WRITE   ,(U8*)&gAsbParam.write	 ,NULL,NULL },
+	{ ASB_2_JOINTCOM_READ	 ,(U8*)&gAsbParam.read	 ,NULL,NULL },
+};                                            
+
+const RF_PARAM rfParamTable[] = 
+{
+	{ RF_LNA1_ATT1_VALUE	,(U8*)&gFctParam.LNA1_gAttTrue1,sizeof(gFctParam.LNA1_gAttTrue1),RF_PARAM_SAMPLE,   0,  63,0,NULL,NULL},
+	{ RF_LNA1_ATT2_VALUE	,(U8*)&gFctParam.LNA1_gAttTrue2,sizeof(gFctParam.LNA1_gAttTrue2),RF_PARAM_SAMPLE,   0,  63,0,NULL,NULL},
+	{ RF_LNA2_ATT1_VALUE	,(U8*)&gFctParam.LNA2_gAttTrue1,sizeof(gFctParam.LNA2_gAttTrue1),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_LNA2_ATT2_VALUE	,(U8*)&gFctParam.LNA2_gAttTrue2,sizeof(gFctParam.LNA2_gAttTrue2),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_MODULE_GC1			,(U8*)&gFctParam.gGC1 		   ,sizeof(gFctParam.gGC1		   ),RF_PARAM_BOTHWR,   0,   0,0,setGC1,NULL},
+	{ RF_MODULE_GC2			,(U8*)&gFctParam.gGC2 		   ,sizeof(gFctParam.gGC2		   ),RF_PARAM_BOTHWR,   0,   0,0,setGC2,NULL},
+	{ RF_MODULE_GC3			,(U8*)&gFctParam.gGC3 		   ,sizeof(gFctParam.gGC3		   ),RF_PARAM_BOTHWR,   0,   0,0,setGC3,NULL},
+	{ RF_LNA1_ALARM			,(U8*)&gFctParam.AlarmLNA1     ,sizeof(gFctParam.AlarmLNA1     ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_LNA2_ALARM			,(U8*)&gFctParam.AlarmLNA2     ,sizeof(gFctParam.AlarmLNA2     ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_LNA1_SW1_30DB		,(U8*)&gFctParam.SW1_30dB      ,sizeof(gFctParam.SW1_30dB      ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_LNA2_SW2_30DB		,(U8*)&gFctParam.SW2_30dB      ,sizeof(gFctParam.SW2_30dB      ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	                                                                                                   
+	{ RF_LNA1_CURRENT		,(U8*)&gFctParam.LNA1CurrentAD ,sizeof(gFctParam.LNA1CurrentAD ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_LNA2_CURRENT		,(U8*)&gFctParam.LNA2CurrentAD ,sizeof(gFctParam.LNA2CurrentAD ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+                                                                                                       
+	{ RF_PWROUT_AD			,(U8*)&gFctParam.curPwrOutAD   ,sizeof(gFctParam.curPwrOutAD   ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_PWRREF_AD			,(U8*)&gFctParam.curPwrReAD    ,sizeof(gFctParam.curPwrReAD    ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_PWROUT_DBM			,(U8*)&gFctParam.curPwrOut     ,sizeof(gFctParam.curPwrOut     ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_PWROUT_DBM			,(U8*)&gFctParam.curPwrRe      ,sizeof(gFctParam.curPwrRe      ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	                                                                                                   
+	{ RF_PWROUT_ADJ	  	    ,NULL ,NULL,RF_PARAM_BOTHWR ,NULL,POWER_OUT_ADJ_VALUE_MIN ,POWER_OUT_ADJ_VALUE_MAX,		 setOutAdjVal,				 NULL},                            
+	{ RF_PWRRFF_ADJ		    ,NULL ,NULL,RF_PARAM_BOTHWR ,NULL,POWER_REF_ADJ_VALUE_MIN ,POWER_REF_ADJ_VALUE_MAX,		 setRefAdjVal,				 NULL},                            
+	{ RF_PWROUT_MANUAL		,NULL ,NULL,RF_PARAM_SAMPLE ,NULL,					 NULL ,					  NULL,setOutAdjValManual, getOutAdjValManual},                
+	{ RF_PWRREF_MANUAL		,NULL ,NULL,RF_PARAM_SAMPLE ,NULL,					 NULL ,					  NULL,setRefAdjValManual, getRefAdjValManual},                
+	                                                                                                   
+	{ RF_LNA1_ATT_SET		,(U8*)&gFctParam.gAtt1 		  ,sizeof(gFctParam.gAtt1 		   ),RF_PARAM_BOTHWR,   0,  63,0,writeAtt1,NULL},
+	{ RF_LNA1_ATT_ADJ		,(U8*)&gFctParam.gGainOffset1 ,sizeof(gFctParam.gGainOffset1   ),RF_PARAM_BOTHWR,   0,  63,0,writeAtt2,NULL},
+	{ RF_LNA2_ATT_SET		,(U8*)&gFctParam.gAtt2 		  ,sizeof(gFctParam.gAtt2 		   ),RF_PARAM_BOTHWR,   0,   0,0,writeAtt3,NULL},
+	{ RF_LNA2_ATT_ADJ		,(U8*)&gFctParam.gGainOffset2 ,sizeof(gFctParam.gGainOffset2   ),RF_PARAM_BOTHWR,   0,   0,0,writeAtt4,NULL},
+                                                                                                       
+	{ RF_SWITCH1			,(U8*)&gFctParam.gRFSW1       ,sizeof(gFctParam.gRFSW1    	   ),RF_PARAM_BOTHWR,   0,   0,0,rfSwitch1,NULL},
+	{ RF_SWITCH2			,(U8*)&gFctParam.gRFSW2       ,sizeof(gFctParam.gRFSW2    	   ),RF_PARAM_BOTHWR,   0,   0,0,rfSwitch2,NULL},
+	{ RF_SWITCH_RX		    ,(U8*)&gFctParam.gRFSW_RX2    ,sizeof(gFctParam.gRFSW_RX2 	   ),RF_PARAM_BOTHWR,   0,   0,0,rfSwitchRx2,NULL},
+	                                                                                                   
+	{ RF_PWROUT_OFFSET	    ,(U8*)&gFctParam.gPwrOutOffset,sizeof(gFctParam.gPwrOutOffset  ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_PWRREF_OFFSET	    ,(U8*)&gFctParam.gPwrReOffset ,sizeof(gFctParam.gPwrReOffset   ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	                                                                                                   
+	{ RF_PWRREF_CO		    ,(U8*)&gFctParam.gPwrReCo     ,sizeof(gFctParam.gPwrReCo       ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_PWROUT_CO		    ,(U8*)&gFctParam.gPwrOutCo    ,sizeof(gFctParam.gPwrOutCo      ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+		                                                                                                   
+	{ RF_VALUEA			    ,(U8*)&gFctParam.gValueA      ,sizeof(gFctParam.gValueA        ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_VALUEB			    ,(U8*)&gFctParam.gValueB      ,sizeof(gFctParam.gValueB        ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	                                                                                                   
+	{ RF_LNA_CUR_MAX	 	,(U8*)&gFctParam.gLnaCurHlim  ,sizeof(gFctParam.gLnaCurHlim    ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_LNA_CUR_MIN  	    ,(U8*)&gFctParam.gLnaCurLlim  ,sizeof(gFctParam.gLnaCurLlim    ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_LNA_CUR_CO	 	    ,(U8*)&gFctParam.gCurCo       ,sizeof(gFctParam.gCurCo         ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_LNA_CUR_OFFSET 	,(U8*)&gFctParam.gCurOffset   ,sizeof(gFctParam.gCurOffset     ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	                                                                                                   
+	{ RF_GAIN_NUMBER		,(U8*)&gFctParam.gGainNumer   ,sizeof(gFctParam.gGainNumer     ),RF_PARAM_BOTHWR,   0, 255,0,tempCompensate,NULL},                     
+	{ RF_GAIN_DENOMI		,(U8*)&gFctParam.gGainDenomi  ,sizeof(gFctParam.gGainDenomi    ),RF_PARAM_BOTHWR,   0, 255,0,tempCompensate,NULL},                     
+	{ RF_GAIN_TEMP		    ,(U8*)&gFctParam.gTempgain    ,sizeof(gFctParam.gTempgain      ),RF_PARAM_BOTHWR,   0,  16,0,tempCompensate,NULL},                    
+	{ RF_BASE_TEMP		    ,(U8*)&gFctParam.gBaseTemp    ,sizeof(gFctParam.gBaseTemp      ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},//ReadTemperatur();	tempCompensate();
+		                                                                                               
+	{ RF_TEMPERATURE		,(U8*)&gFctParam.gcurRfTemp   ,sizeof(gFctParam.gcurRfTemp     ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},	
+	{ RF_DEBUG_TEMPERATURE  ,(U8*)&gFctParam.gtestRfTemp  ,sizeof(gFctParam.gtestRfTemp	   ),RF_PARAM_SAMPLE,   0,   0,0,NULL,NULL},
+	{ RF_DEBUG_FLAG		    ,(U8*)&gFctParam.gtestflag    ,sizeof(gFctParam.gtestflag      ),RF_PARAM_SAMPLE,   0,   0,0,tempCompensate,NULL},
+                                                                                                       
+	{ RF_MODULE_SN			,(U8*)&gFctParam.sn			  ,sizeof(gFctParam.sn      	   ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_MODULE_ADDR		,(U8*)&gFctParam.gRF_No	      ,sizeof(gFctParam.gRF_No	       ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+	{ RF_FIRMWARE_VERSION	,(U8*)&gFctParam.gVersion	  ,sizeof(gFctParam.gVersion	   ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},                                        
+	{ RF_FIRMWARE_CHKSUM	,(U8*)&gFctParam.all_checksum ,sizeof(gFctParam.all_checksum   ),RF_PARAM_BOTHWR,   0,   0,0,NULL,NULL},
+};
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+U8 RfParamTableCalc(void)
+{
+	return sizeof(rfParamTable)/sizeof(RF_PARAM);
+}
+U8 AsbParamTableCalc(void)
+{
+	return sizeof(asbParamTable)/sizeof(ASB_PARAM);
+}
+/**
+  * @brief  :Init the parameters
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void InitParam(void)
+{
+	
+}
+/**
+  * @brief  :parameter aask routine
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void TaskParameter(void)
+{
+	
+}
+/********************************END OF FILE***********************************/

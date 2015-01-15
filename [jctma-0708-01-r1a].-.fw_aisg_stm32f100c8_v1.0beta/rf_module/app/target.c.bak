@@ -1,0 +1,185 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:target.c
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_TARGET_C__
+#define __RF_TARGET_C__
+#endif
+/* Includes ------------------------------------------------------------------*/
+#include "config.h"
+/* Private typedef -----------------------------------------------------------*/
+typedef struct _GPIO_FUNC_ {
+    void*group;
+    U16	pin;
+    U32 remap;
+    GPIOMode_TypeDef mode; 
+} GPIO_FUNC;
+/* Private define ------------------------------------------------------------*/
+//#define ADC1_DR_Address    ((uint32_t)0x4001244C)
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+const SPI_BUS attBus[] = 
+{
+	{{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5}},
+	{{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5}},
+	{{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5}},
+	{{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5},{GPIO_PortSourceGPIOA,GPIO_Pin_5}},
+};
+
+const GPIO_FUNC gpioTable[] = {
+    /* GPROUP0       */
+    {GPIOA, GPIO_Pin_0 , 0, GPIO_Mode_Out_PP}, /*Vctl           */
+    {GPIOA, GPIO_Pin_1 , 0, GPIO_Mode_Out_PP}, /*PWRSW1         */
+    {GPIOA, GPIO_Pin_2 , 0, GPIO_Mode_Out_PP}, /*PWRSW2         */
+    {GPIOA, GPIO_Pin_3 , 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOA, GPIO_Pin_4 , 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOA, GPIO_Pin_5 , 0, GPIO_Mode_Out_PP}, /*VDTsw          */
+    {GPIOA, GPIO_Pin_6 , 0, GPIO_Mode_AIN	}, /*VDTin          */
+    {GPIOA, GPIO_Pin_7 , 0, GPIO_Mode_Out_PP}, /*LNA2_IDT       */   
+    {GPIOA, GPIO_Pin_8 , 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOA, GPIO_Pin_9 , 0, GPIO_Mode_Out_PP}, /*TXD1           */ 
+    {GPIOA, GPIO_Pin_10, 0, GPIO_Mode_IN_FLOATING}, /*RXD1           */
+    {GPIOA, GPIO_Pin_11, 0, GPIO_Mode_Out_PP}, /*30dBLNA1       */
+    {GPIOA, GPIO_Pin_12, 0, GPIO_Mode_Out_PP}, /*30dBLNA2       */
+    {GPIOA, GPIO_Pin_13, 0, GPIO_Mode_Out_PP}, /*SWDIO          */
+    {GPIOA, GPIO_Pin_14, 0, GPIO_Mode_Out_PP}, /*SWCLK          */
+    {GPIOA, GPIO_Pin_15, 0, GPIO_Mode_Out_PP}, /*LE_2/JTDI      */
+                                                                
+    {GPIOB, GPIO_Pin_0 , 0, GPIO_Mode_Out_PP}, /*LNA1_IDT       */
+    {GPIOB, GPIO_Pin_1 , 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOB, GPIO_Pin_2 , 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOB, GPIO_Pin_3 , 0, GPIO_Mode_Out_PP}, /*SPICLK/JTDO    */
+    {GPIOB, GPIO_Pin_4 , 0, GPIO_Mode_Out_PP}, /*LE_1/JTRST     */
+    {GPIOB, GPIO_Pin_5 , 0, GPIO_Mode_Out_PP}, /*SPIMOSI        */
+    {GPIOB, GPIO_Pin_6 , 0, GPIO_Mode_Out_PP}, /*SCL1           */
+    {GPIOB, GPIO_Pin_7 , 0, GPIO_Mode_Out_PP}, /*SDA1           */
+    {GPIOB, GPIO_Pin_8 , 0, GPIO_Mode_Out_PP}, /*LE_3           */
+    {GPIOB, GPIO_Pin_9 , 0, GPIO_Mode_Out_PP}, /*LE_4           */
+    {GPIOB, GPIO_Pin_10, 0, GPIO_Mode_Out_PP}, /*SCL2           */
+    {GPIOB, GPIO_Pin_11, 0, GPIO_Mode_Out_PP}, /*SDA2           */
+    {GPIOB, GPIO_Pin_12, 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOB, GPIO_Pin_13, 0, GPIO_Mode_Out_PP}, /*               */    
+    {GPIOB, GPIO_Pin_14, 0, GPIO_Mode_Out_PP}, /*               */
+    {GPIOB, GPIO_Pin_15, 0, GPIO_Mode_Out_PP}, /*               */
+};
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+/**
+  * @brief  :初始化系统时钟
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+static void InitRcc(void)
+{	
+	/*!< At this stage the microcontroller clock setting is already configured, 
+	   this is done through SystemInit() function which is called from startup
+	   file (startup_stm32f10x_xx.s) before to branch to application main.
+	   To reconfigure the default setting of SystemInit() function, refer to
+	   system_stm32f10x.c file
+	 */     	    
+	/* System Clocks Configuration */
+	/* PCLK1 = HCLK/1 */
+	RCC_PCLK1Config(RCC_HCLK_Div1);	
+  	/* Enable peripheral clocks ------------------------------------------------*/
+  	/* Enable DMA1 clock */
+  	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);	
+	/* APB1Periph clock enable */
+  	RCC_APB1PeriphClockCmd( RCC_APB1Periph_TIM2|
+							RCC_APB1Periph_I2C1|
+							RCC_APB1Periph_I2C2
+							,ENABLE);
+	/* APB2Periph clock enable */
+	RCC_APB2PeriphClockCmd( RCC_APB2Periph_AFIO|
+							RCC_APB2Periph_GPIOA|
+							RCC_APB2Periph_GPIOB|
+							RCC_APB2Periph_ADC1|
+							RCC_APB2Periph_USART1							
+							,ENABLE);	
+}
+/**
+  * @brief  :管脚功能初始化
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+static void InitGpio(void)
+{
+    U32 i;
+	GPIO_InitTypeDef GPIO_InitStructure;
+
+	/* JTAG-DP Disabled and SW-DP Enable */
+    GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+
+    for (i = 0; i < sizeof(gpioTable) / sizeof(GPIO_FUNC); i++)
+    {
+		GPIO_InitStructure.GPIO_Pin = gpioTable[i].pin;
+		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+		GPIO_InitStructure.GPIO_Mode = gpioTable[i].mode;
+		GPIO_Init(gpioTable[i].group, &GPIO_InitStructure);
+		
+		if ( gpioTable[i].remap != 0 )
+		{
+			GPIO_PinRemapConfig(gpioTable[i].remap,ENABLE);
+		}		
+    }							
+}
+/**
+  * @brief  :Configure the nested vectored interrupt controller.
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+static void InitNvic(void)
+{
+	NVIC_InitTypeDef NVIC_InitStructure;
+
+	/* Configure the NVIC Preemption Priority Bits */  
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);	
+	/* Enable the USART1 Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	
+	/* Enable the USART1 Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = I2C1_EV_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);			
+}
+/**
+  * @brief  :目标板初始化
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void InitTarget(void)
+{
+	InitRcc();
+	InitNvic();
+	InitGpio();	
+	InitAdc();
+	InitUart();
+	InitI2c();
+	InitTimer();
+	//InitWatchdog();
+}
+/********************************END OF FILE***********************************/

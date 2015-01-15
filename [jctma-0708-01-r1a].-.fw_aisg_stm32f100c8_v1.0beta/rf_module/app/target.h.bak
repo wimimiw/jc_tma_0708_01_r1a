@@ -1,0 +1,59 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:rf_target.h
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_TARGET_H__
+#define __RF_TARGET_H__
+#endif	  
+
+#ifndef __RF_TARGET_C__
+#define	__RF_TARGET_EXT__ 	 extern
+#else	  
+#define	__RF_TARGET_EXT__
+#endif
+/* Includes ------------------------------------------------------------------*/
+/* Public typedef ------------------------------------------------------------*/
+/* Public define -------------------------------------------------------------*/
+#define I2C_EEPROM_ADDR     		0xA0
+#define I2C_LM75_ADDR1      		0x90
+#define I2C_LM75_ADDR2      		0x90
+#define I2C_SLAVE_ADDR				0x0E                           		
+#define ON                  		0x01
+#define OFF                 		0x00
+//operater the gpio
+#define RF_GPIO_WR_GC1(x)			GPIO_WriteBit(GPIOA,GPIO_Pin_1,LOW == x ? Bit_RESET:Bit_SET)
+#define RF_GPIO_WR_GC2(x)		    GPIO_WriteBit(GPIOA,GPIO_Pin_1,LOW == x ? Bit_RESET:Bit_SET)
+#define RF_GPIO_WR_GC3(x)			GPIO_WriteBit(GPIOA,GPIO_Pin_1,LOW == x ? Bit_RESET:Bit_SET)
+	
+#define RF_GPIO_WR_SW1(x)			GPIO_WriteBit(GPIOA,GPIO_Pin_1,LOW == x ? Bit_RESET:Bit_SET)
+#define RF_GPIO_WR_SW2(x)			GPIO_WriteBit(GPIOA,GPIO_Pin_2,LOW == x ? Bit_RESET:Bit_SET)
+#define RF_GPIO_WR_RX2(x)			GPIO_WriteBit(GPIOA,GPIO_Pin_0,LOW == x ? Bit_RESET:Bit_SET)
+	
+#define RF_GPIO_WR_LNA1_ALARM(x)	GPIO_WriteBit(GPIOB,GPIO_Pin_0,LOW == x ? Bit_RESET:Bit_SET)
+#define RF_GPIO_WR_LNA2_ALARM(x)	GPIO_WriteBit(GPIOA,GPIO_Pin_7,LOW == x ? Bit_RESET:Bit_SET)
+	
+#define RF_GPIO_SW_OUTPWR()			GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_SET  )		
+#define RF_GPIO_SW_REFPWR()			GPIO_WriteBit(GPIOA,GPIO_Pin_5,Bit_RESET)
+
+#define	RF_GPIO_RD_SW130DB()		GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_11)
+#define	RF_GPIO_RD_SW230DB()		GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_12)
+
+
+#define EEPROM_WP_UNPROTECT()   	//GPIO_WriteBit(GPIOA,GPIO_Pin_1,Bit_SET  )
+#define EEPROM_WP_PROTECT()     	//GPIO_WriteBit(GPIOA,GPIO_Pin_1,Bit_RESET)
+/* Public macro --------------------------------------------------------------*/
+/* Public variables ----------------------------------------------------------*/
+extern  const SPI_BUS attBus[];
+__RF_TARGET_EXT__ __IO U16 ADCConvertedValue;
+/* Public function prototypes ------------------------------------------------*/
+void InitTarget(void);
+/********************************END OF FILE***********************************/

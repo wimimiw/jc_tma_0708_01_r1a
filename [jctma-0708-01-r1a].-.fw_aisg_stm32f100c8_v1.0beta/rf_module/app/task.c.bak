@@ -1,0 +1,123 @@
+/*******************************Copyright (c)***********************************
+ *
+ *              Copyright (C), 1999-2011, Jointcom . Co., Ltd.
+ *
+ *------------------------------------------------------------------------------
+ * @file	:
+ * @author	:mashuai
+ * @version	:v2.0 
+ * @date	:2011.10.20
+ * @brief	:
+ *------------------------------------------------------------------------------
+ * @attention
+ ******************************************************************************/
+#ifndef __RF_TASK_C__
+#define __RF_TASK_C__
+#endif
+/* Includes ------------------------------------------------------------------*/
+#include "config.h"
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+#define TASK_MAX_NUM        10                       /* 最大任务数           */
+#define TASK_TIM_HANDLE		TIM2
+/* Private macro -------------------------------------------------------------*/
+void TaskSample(void);
+/* Private variables ---------------------------------------------------------*/
+static U8 taskNum;
+static TaskTableType taskTable[TASK_MAX_NUM];
+static TaskTimerType taskTimers[TASK_MAX_NUM];       /* 任务定时器           */
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+/**
+  * @brief  :添加任务定时器
+  * @param  :interval    任务运行时间间隔
+  * @param  :handler     任务操作函数
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void AddTaskTimer( void (*handler)(), S32 interval )
+{
+	if ( taskNum < TASK_MAX_NUM && NULL == taskTimers[taskNum].task )
+    {
+    	taskTimers[taskNum].delayTime = interval;
+    	taskTimers[taskNum].task      = handler;
+		UserTimerReset( TASK_TIM_HANDLE, &taskTimers[taskNum++].timer );
+    }
+}
+/**
+  * @brief  :删除任务定时器
+  * @param  :void (*handler)()
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void DelTaskTimer( void (*handler)() )
+{
+    U8 i;
+
+	if ( TASK_MAX_NUM >= taskNum && 0 < taskNum )
+	{
+		for ( i = 0 ; i < taskNum ; i++ )
+		{
+			if ( taskTimers[i].task == handler )
+		    {//将最后一个任务补到这个序号
+		        taskTimers[i].delayTime = taskTimers[taskNum-1].delayTime;
+		        taskTimers[i].timer     = taskTimers[taskNum-1].timer;
+		        taskTimers[i].task      = taskTimers[taskNum-1].task;				
+				taskNum--;				
+		    }
+		}
+	}
+}
+/**
+  * @brief  :初始化定时器
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void InitTaskTimer( void )
+{
+    U8 i;
+
+    /* 初始化固定任务   */
+    for ( i = 0; i < sizeof(taskTable) / sizeof(TaskTableType); i++ )
+    {
+        taskTimers[i].delayTime = taskTable[i].delayTime;
+        taskTimers[i].task      = taskTable[i].task;
+		UserTimerReset( TASK_TIM_HANDLE, &taskTimers[i].timer);
+    }
+
+}
+/**
+  * @brief  :task running kernel
+  * @param  :None
+  * @retval :None
+  * @author	:mashuai
+  * @version:v2.0
+  * @date	:2011.10.20
+  */
+void TaskTimerRoutine( void )
+{
+    U8 i;
+
+	for(;;)
+	{
+	    for ( i = 0; i < taskNum; i++ )/* 所有任务遍历一次     */
+	    {
+	        if ( taskTimers[i].task != NULL )             /* 任务有效             */
+	        {
+	            if ( UserTimerOver( TASK_TIM_HANDLE, &taskTimers[i].timer, taskTimers[i].delayTime ) )/* 定时时间到           */
+	            {
+	                UserTimerReset( TASK_TIM_HANDLE, &taskTimers[i].timer );
+	                taskTimers[i].task();                 /* 运行定时轮询函数     */
+	            }
+	        }
+	    }
+	}
+}
+/********************************END OF FILE***********************************/
