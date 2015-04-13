@@ -1,1 +1,0 @@
--c --cpu Cortex-M3 -g -O2 --apcs=interwork -I..\app -I..\device -I..\driver\inc -I..\driver -I..\cpu -I "C:\Program Files\Keil\ARM\CMSIS\Include" -I "C:\Program Files\Keil\ARM\INC\ST\STM32F10x" -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -o ".\debug\output\rf_control.o" --omf_browse ".\debug\output\rf_control.crf" --depend ".\debug\output\rf_control.d" "..\app\rf_control.c"
