@@ -1,0 +1,5 @@
+--cpu Cortex-M3 --apcs=interwork 
+-I "C:\Program Files\Keil\ARM\RV31\Inc" 
+-I "C:\Program Files\Keil\ARM\CMSIS\Include" 
+-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x" 
+--list ".\release\listing\startup_stm32f10x_md_vl.lst" --xref -o ".\release\output\startup_stm32f10x_md_vl.o" --depend ".\release\output\startup_stm32f10x_md_vl.d" "..\cpu\startup_stm32f10x_md_vl.s"

@@ -1,0 +1,5 @@
+-c --cpu Cortex-M3 -O2 --apcs=interwork -I..\app -I..\device -I..\driver\inc -I..\driver -I..\cpu 
+-I "C:\Program Files\Keil\ARM\RV31\Inc" 
+-I "C:\Program Files\Keil\ARM\CMSIS\Include" 
+-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x" 
+-DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -DWATCHDOG_EN -o ".\release\output\core_cm3.o" --depend ".\release\output\core_cm3.d" "..\cpu\core_cm3.c"

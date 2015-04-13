@@ -483,9 +483,9 @@
               <FilePath>..\driver\user_uart.c</FilePath>
             </File>
             <File>
-              <FileName>user_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\driver\user_flash.c</FilePath>
+              <FileName>user_flash.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\driver\user_flash.o</FilePath>
             </File>
             <File>
               <FileName>misc.c</FileName>
@@ -1032,9 +1032,9 @@
               <FilePath>..\driver\user_uart.c</FilePath>
             </File>
             <File>
-              <FileName>user_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\driver\user_flash.c</FilePath>
+              <FileName>user_flash.o</FileName>
+              <FileType>3</FileType>
+              <FilePath>..\driver\user_flash.o</FilePath>
             </File>
             <File>
               <FileName>misc.c</FileName>
